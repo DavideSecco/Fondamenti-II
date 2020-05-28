@@ -17,8 +17,7 @@ Item* Intersect(const Item* i1, const Item* i2)
 		{
 			const ElemType *n = GetHeadValueList(sup);
 			int ris = ElemCompare(e, n);
-			if ( ris == 0)
-			{
+			if ( ris == 0)			{
 				i = InsertBackList(i, e);
 			}
 			sup = GetTailList(sup);
