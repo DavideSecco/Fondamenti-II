@@ -1,70 +1,53 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "list_int.h"
 #include <stdlib.h>
 
-extern Item* Diff(const Item* i1, const Item* i2)
+Item* Diff(const Item* i1, const Item* i2)
 {
-	Item *head = malloc(sizeof(Item));
-	head->next = NULL;
-	Item *i = head;	
-	
-	Item *rec = i;
+	if (i1 == NULL)
+		return NULL;
 
-	//serve per controllo che ci sia almeno un elemento nella lista
-	bool f2 = false; 
+	//if(i2 == NULL)
+		//return i1;
 
-	while (1)
+	Item* i3 = NULL;
+	Item* head = i3;
+	const Item* tmp_1 = i1;
+	const Item* tmp_2 = i2;
+
+	bool s = false; //indica la fine della prima lista
+
+	while (s == false)
 	{
-		//controllo se sono arrivato alla fine di i1
-		if (i1 == NULL)
-			break; 
+		bool f = false;
+		ElemType e1 = ElemCopy(&tmp_1->value);
 
-		//uso un altro puntatore per scorrere i2
-		const Item *tmp = i2;
+		if (tmp_1->next == NULL)
+			s = true;
 
-		//flag per controllare se ci sono elementi uguali
-		bool f = true;
+		tmp_2 = i2;
 
-		// scorro tmp (cioè i2)
-		while (1)
+		while (tmp_2 != NULL)
 		{
-			if (tmp == NULL)
-				break;
-
-			//se due elementi sono uguali, esco da ciclo:
-			if (ElemCompare(&i1->value, &tmp->value)==0){
-				f = false;
+			ElemType e2 = ElemCopy(&tmp_2->value);
+			if (e1 == e2) {
+				f = true;
 				break;
 			}
-
-			tmp = tmp->next;	
+			tmp_2 = tmp_2->next;
 		}
 
-		//se non c'è l'elemento in i2, lo salvo nell'altra lista
-		if (f == true){
-			f2 = true;
-			Item* t = malloc(sizeof(Item));
-			i->value = i1->value;
-			rec = i;
-			i->next = t;
-			i = i->next;
+		// aggiungo il numero se non è stato trovato in i2
+		if (f == false)
+		{
+			Item *t = malloc(sizeof(Item));
+			t->value = e1;
+			t->next = i3;
+			i3 = t;
 		}
-
-		i1 = i1->next;
-	}
-	
-	ElemDelete(&i->value);
-	ElemDelete(&i->value);
-	free(i);
-
-	//non ci sono elementi nella lista --> ritorno la lista vuota
-	if (f2 == false){
-		head = NULL;
+		tmp_1 = tmp_1->next;
 	}
 
-	// ci sono elementi nella lista --> allora l'ultimo elemento i->next = NULL;
-	else{
-		rec->next = NULL;
-	}
-
-	return head;
+	return i3;
 }
