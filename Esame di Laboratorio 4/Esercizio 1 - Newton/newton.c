@@ -3,8 +3,8 @@
 double f(const polinomio *p, double x)
 {
 	double y = 0;
-	for (size_t i = 0; i < p->size; i++)
-	{
+
+	for (size_t i = 0; i < p->size; i++) {
 		y = y + p->coeffs[i] * pow(x, i);
 	}
 	return y;
@@ -13,8 +13,8 @@ double f(const polinomio *p, double x)
 double f_der(const polinomio *d, double x)
 {
 	double y = 0;
-	for (size_t i = 0; i < d->size; i++)
-	{
+
+	for (size_t i = 0; i < d->size; i++) {
 		y = y + d->coeffs[i] * pow(x, i);
 	}
 	return y;
